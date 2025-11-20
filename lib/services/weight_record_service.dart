@@ -140,10 +140,7 @@ class WeightRecordService {
             'recordedAt',
             isGreaterThanOrEqualTo: Timestamp.fromDate(startDate),
           )
-          .where(
-            'recordedAt',
-            isLessThanOrEqualTo: Timestamp.fromDate(endDate),
-          )
+          .where('recordedAt', isLessThanOrEqualTo: Timestamp.fromDate(endDate))
           .get();
 
       double total = 0;
