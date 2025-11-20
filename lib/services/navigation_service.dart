@@ -4,6 +4,7 @@ import '../models/user_role.dart';
 import '../screens/dashboards/member_dashboard.dart';
 import '../screens/dashboards/group_dashboard.dart';
 import '../screens/dashboards/business_dashboard.dart';
+import '../screens/dashboards/admin_dashboard.dart';
 import '../screens/dashboard_screen.dart';
 
 class NavigationService {
@@ -11,7 +12,26 @@ class NavigationService {
     try {
       print('🔍 Getting dashboard for user: $userId');
 
-      // First check if this is an organization account
+      // First check if this is an admin account
+      DocumentSnapshot adminDoc = await FirebaseFirestore.instance
+          .collection('admins')
+          .doc(userId)
+          .get();
+
+      if (adminDoc.exists) {
+        Map<String, dynamic> adminData = adminDoc.data() as Map<String, dynamic>;
+        bool isActive = adminData['isActive'] ?? true;
+        
+        if (isActive) {
+          print('👑 Admin account found, loading Admin Dashboard');
+          return const AdminDashboardScreen();
+        } else {
+          print('⚠️ Admin account is deactivated');
+          throw Exception('Admin account is deactivated');
+        }
+      }
+
+      // Check if this is an organization account
       DocumentSnapshot orgDoc = await FirebaseFirestore.instance
           .collection('group_organizations')
           .doc(userId)

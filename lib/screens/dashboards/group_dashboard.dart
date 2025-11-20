@@ -104,53 +104,62 @@ class _GroupDashboardState extends State<GroupDashboard> {
       // Try to get address from coordinates
       String address = 'Location retrieved';
       try {
-        debugPrint('Fetching address for: ${position.latitude}, ${position.longitude}');
-        
+        debugPrint(
+          'Fetching address for: ${position.latitude}, ${position.longitude}',
+        );
+
         List<Placemark> placemarks = await placemarkFromCoordinates(
           position.latitude,
           position.longitude,
         );
 
         debugPrint('Placemarks found: ${placemarks.length}');
-        
+
         if (placemarks.isNotEmpty) {
           Placemark place = placemarks[0];
-          
+
           debugPrint('Placemark details:');
           debugPrint('  - name: ${place.name}');
           debugPrint('  - street: ${place.street}');
           debugPrint('  - subLocality: ${place.subLocality}');
           debugPrint('  - locality: ${place.locality}');
-          debugPrint('  - subAdministrativeArea: ${place.subAdministrativeArea}');
+          debugPrint(
+            '  - subAdministrativeArea: ${place.subAdministrativeArea}',
+          );
           debugPrint('  - administrativeArea: ${place.administrativeArea}');
           debugPrint('  - postalCode: ${place.postalCode}');
           debugPrint('  - country: ${place.country}');
 
           // Build address with priority order
           List<String> addressComponents = [];
-          
+
           // Add street or name if available
-          if (place.street != null && place.street!.isNotEmpty && place.street != 'Unnamed Road') {
+          if (place.street != null &&
+              place.street!.isNotEmpty &&
+              place.street != 'Unnamed Road') {
             addressComponents.add(place.street!);
-          } else if (place.name != null && place.name!.isNotEmpty && place.name != place.locality) {
+          } else if (place.name != null &&
+              place.name!.isNotEmpty &&
+              place.name != place.locality) {
             addressComponents.add(place.name!);
           }
-          
+
           // Add sub-locality
           if (place.subLocality != null && place.subLocality!.isNotEmpty) {
             addressComponents.add(place.subLocality!);
           }
-          
+
           // Add locality (city)
           if (place.locality != null && place.locality!.isNotEmpty) {
             addressComponents.add(place.locality!);
           }
-          
+
           // Add administrative area (state/region)
-          if (place.administrativeArea != null && place.administrativeArea!.isNotEmpty) {
+          if (place.administrativeArea != null &&
+              place.administrativeArea!.isNotEmpty) {
             addressComponents.add(place.administrativeArea!);
           }
-          
+
           // Add country
           if (place.country != null && place.country!.isNotEmpty) {
             addressComponents.add(place.country!);
@@ -164,18 +173,23 @@ class _GroupDashboardState extends State<GroupDashboard> {
             if (place.postalCode != null && place.postalCode!.isNotEmpty) {
               address = 'Near ${place.postalCode}';
             } else {
-              address = 'Current Location (${position.latitude.toStringAsFixed(2)}°, ${position.longitude.toStringAsFixed(2)}°)';
+              address =
+                  'Current Location (${position.latitude.toStringAsFixed(2)}°, ${position.longitude.toStringAsFixed(2)}°)';
             }
             debugPrint('Using fallback address: $address');
           }
         } else {
-          debugPrint('No placemarks returned - geocoding may not be available on this platform');
+          debugPrint(
+            'No placemarks returned - geocoding may not be available on this platform',
+          );
           // More user-friendly message instead of raw coordinates
           address = 'Current Location';
         }
       } catch (geocodingError) {
         // If geocoding fails, show user-friendly message
-        debugPrint('Geocoding error (may need Google Maps API key for web): $geocodingError');
+        debugPrint(
+          'Geocoding error (may need Google Maps API key for web): $geocodingError',
+        );
         // Show simplified coordinates instead of full precision
         address = 'Current Location';
       }
