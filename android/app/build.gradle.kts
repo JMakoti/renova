@@ -11,8 +11,10 @@ plugins {
 android {
     namespace = "com.example.renova"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion 
-     //29.0.14206865
+    // ndkVersion = '29.0.14206865'
+    // ndkVersion = flutter.ndkVersion 
+    ndkVersion = "27.0.12077973"
+    //29.0.14206865
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

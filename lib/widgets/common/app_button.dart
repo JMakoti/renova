@@ -42,8 +42,8 @@ class AppButton extends StatelessWidget {
           child: ElevatedButton(
             onPressed: onPressed,
             style: baseStyle.copyWith(
-              backgroundColor: MaterialStateProperty.all(AppColors.primary),
-              foregroundColor: MaterialStateProperty.all(Colors.white),
+              backgroundColor: WidgetStateProperty.all(AppColors.primary),
+              foregroundColor: WidgetStateProperty.all(Colors.white),
             ),
             child: child,
           ),
@@ -54,8 +54,8 @@ class AppButton extends StatelessWidget {
           child: ElevatedButton(
             onPressed: onPressed,
             style: baseStyle.copyWith(
-              backgroundColor: MaterialStateProperty.all(AppColors.accent),
-              foregroundColor: MaterialStateProperty.all(Colors.white),
+              backgroundColor: WidgetStateProperty.all(AppColors.accent),
+              foregroundColor: WidgetStateProperty.all(Colors.white),
             ),
             child: child,
           ),
